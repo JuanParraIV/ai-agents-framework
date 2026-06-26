@@ -1,0 +1,38 @@
+# --- Secretos: NUNCA versionar ---
+.env
+.env.*
+.envrc
+.direnv/
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+.vault-token
+
+# --- Claude Code local ---
+.claude/settings.local.json
+.claude/.cache/
+
+# --- Dependencias / build ---
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+target/
+dist/
+build/
+
+# --- Reportes de escaneo (pueden contener rutas/datos sensibles) ---
+*.sarif
+coverage/
+.coverage
+htmlcov/
+mutation-report/
+
+# --- OS / editor ---
+.DS_Store
+.idea/
+.vscode/
+*.swp

@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "defaultMode": "default",
+    "allow": [
+      "Read(./**)",
+      "Bash(git status)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git branch:*)",
+      "Bash(git checkout -b:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(pytest:*)",
+      "Bash(npm test:*)",
+      "Bash(npx cucumber-js:*)",
+      "Bash(behave:*)",
+      "Bash(go test:*)",
+      "Bash(mvn test:*)",
+      "Bash(semgrep:*)",
+      "Bash(gitleaks:*)",
+      "Bash(trivy:*)",
+      "Bash(tfsec:*)",
+      "Bash(checkov:*)",
+      "Bash(terraform plan:*)",
+      "Bash(terraform validate:*)",
+      "Bash(kubectl get:*)",
+      "Bash(kubectl describe:*)"
+    ],
+    "ask": [
+      "Bash(git push:*)",
+      "Bash(gh pr create:*)",
+      "Bash(docker build:*)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./**/*.pem)",
+      "Read(./**/*.key)",
+      "Read(./secrets/**)",
+      "Bash(rm -rf:*)",
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)",
+      "Bash(terraform apply:*)",
+      "Bash(terraform destroy:*)",
+      "Bash(pulumi up:*)",
+      "Bash(pulumi destroy:*)",
+      "Bash(kubectl apply:*)",
+      "Bash(kubectl delete:*)",
+      "Bash(helm install:*)",
+      "Bash(helm upgrade:*)",
+      "Bash(aws:*)",
+      "Bash(az:*)",
+      "Bash(gcloud:*)",
+      "Bash(vault write:*)",
+      "Bash(curl:*)",
+      "Bash(wget:*)"
+    ]
+  }
+}
