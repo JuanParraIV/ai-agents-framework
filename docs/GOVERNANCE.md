@@ -8,14 +8,14 @@ Modelo de gobierno operativo del framework. Lo aplican los guardrails de [`CLAUD
 
 | Operador | Agentes que invoca | Skills | MCP | Puede tocar prod |
 |----------|--------------------|--------|-----|------------------|
-| **Product** | product-analyst | story-refinement, epic-decomposition | atlassian | No |
+| **Product** | product-analyst | story-refinement, epic-decomposition | atlassian, markitdown | No |
 | **Dev** | developer, test-generator, security-reviewer*(read)* | implement-from-bdd, code-review-security*(read)*, test-generation | atlassian, github | No — solo PR |
 | **QA** | qa-bdd-engineer, test-generator | bdd-test-generation, test-generation, coverage-gap-analysis, mutation-testing | atlassian, github | No |
 | **DevSecOps** | security-reviewer, compliance-auditor | code-review-security, sast/sca/secret/container/iac-security/dast-scan, threat-modeling, compliance-check, sbom-generation | semgrep, snyk, trivy, gitleaks, zap, sonarqube, github | Block/gate (no escribe) |
 | **DevOps** | devops-pipeline, release-manager | pipeline-generation, container-build, artifact-management, release-orchestration, rollback | github, artifactory, servicenow | Con aprobación |
 | **Platform** | platform-engineer | iac-generation, k8s-manifest, helm-chart, gitops-setup, environment-provisioning, secrets-management | terraform, kubernetes, argocd, vault, cloud | `plan` sí · `apply` con aprobación |
 | **SRE** | sre-agent | slo-management, observability-setup, incident-response, runbook-generation, postmortem, capacity-planning, chaos-testing | datadog, prometheus, grafana, pagerduty, kubernetes | Mitigación con aprobación |
-| **Compliance** | compliance-auditor | audit-trail, regulatory-mapping, evidence-collection | servicenow, confluence, atlassian | Solo lectura |
+| **Compliance** | compliance-auditor | audit-trail, regulatory-mapping, evidence-collection | servicenow, confluence, atlassian, markitdown | Solo lectura |
 
 Principio: **least privilege**. Un operador no listado para un agente/MCP **no** puede invocarlo.
 

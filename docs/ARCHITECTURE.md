@@ -31,8 +31,8 @@ Este documento es el **plano por fases** para una implementación 100% exitosa. 
 ├──────────────────────────────────────────────────────────────────────────┤
 │ L3  SKILLS (capacidades)      .claude/skills/<dominio>/<skill>/SKILL.md     │
 ├──────────────────────────────────────────────────────────────────────────┤
-│ L2  MCP / INTEGRACIONES       JIRA·Git·Semgrep·Snyk·Trivy·Vault·Terraform·  │
-│                               K8s·Datadog·PagerDuty·ServiceNow·SonarQube    │
+│ L2  MCP / INTEGRACIONES       JIRA·Git·markitdown·Semgrep·Snyk·Trivy·Vault· │
+│                               Terraform·K8s·Datadog·PagerDuty·ServiceNow    │
 ├──────────────────────────────────────────────────────────────────────────┤
 │ L1  PLATAFORMA / RUNTIME      Claude Code subagents · memoria · secrets     │
 └──────────────────────────────────────────────────────────────────────────┘
@@ -82,7 +82,7 @@ Cada fase es entregable e independientemente valiosa. No se avanza sin cumplir l
 - **MCP**: Vault (prod), Git.
 - **Exit criteria**: RBAC documentada y aplicada ✅; ningún secreto en repo/contexto (settings deny + gitignore) ✅; esquema de audit trail definido ✅; gates humanos para prod definidos ✅.
 
-### Fase 1 — Plan & Build (núcleo BDD-first)  `[hecho parcialmente]`
+### Fase 1 — Plan & Build (núcleo BDD-first)  `[✅ núcleo probado end-to-end]`
 - **Agentes**: `product-analyst`, `qa-bdd-engineer`, `developer`.
 - **Skills**: `story-refinement`, `bdd-test-generation`, `implement-from-bdd`.
 - **MCP**: Atlassian (JIRA), Git/GitHub.
@@ -94,31 +94,31 @@ Cada fase es entregable e independientemente valiosa. No se avanza sin cumplir l
 - **MCP**: Git, runners de test, Playwright/k6.
 - **Exit criteria**: cobertura ≥80% line+branch en módulos críticos; suite verde reproducible en CI.
 
-### Fase 3 — Security & Compliance (crítico bancario)  `[siguiente]`
+### Fase 3 — Security & Compliance (crítico bancario)  `[🟡 agente + skills]`
 - **Agente**: `security-reviewer` (DevSecOps).
 - **Skills**: `code-review-security` ✅, `sast-scan`, `sca-scan`, `secret-scan`, `container-scan`, `iac-security-scan`, `dast-scan`, `threat-modeling`, `compliance-check`, `sbom-generation`.
 - **MCP**: Semgrep, Snyk/Dependency-Track, Trivy/Grype, gitleaks, OWASP ZAP, SonarQube.
 - **Exit criteria**: ningún PR mergea con hallazgos Critical/High; SBOM por release; mapeo a PCI-DSS/SOX/GDPR evidenciado.
 
-### Fase 4 — Delivery (CI/CD)  `[planificado]`
+### Fase 4 — Delivery (CI/CD)  `[🟡 agentes + skills]`
 - **Agentes**: `devops-pipeline`, `release-manager`.
 - **Skills**: `pipeline-generation`, `container-build`, `artifact-management`, `release-orchestration`, `rollback`.
 - **MCP**: Git CI, Artifactory/Nexus, ServiceNow (change management).
 - **Exit criteria**: pipeline reproducible con quality+security gates; releases versionadas, firmadas y trazables a JIRA; rollback probado.
 
-### Fase 5 — Platform & Infrastructure  `[planificado]`
+### Fase 5 — Platform & Infrastructure  `[🟡 agente + skills]`
 - **Agente**: `platform-engineer`.
 - **Skills**: `iac-generation`, `k8s-manifest`, `helm-chart`, `gitops-setup`, `environment-provisioning`, `secrets-management`.
 - **MCP**: Terraform/Pulumi, Kubernetes, ArgoCD, Vault, Cloud (AWS/Azure/GCP).
 - **Exit criteria**: entornos provisionados por IaC con security baseline; GitOps como única fuente de verdad; drift detectado.
 
-### Fase 6 — Operate & Reliability (SRE)  `[planificado]`
+### Fase 6 — Operate & Reliability (SRE)  `[🟡 agente + skills]`
 - **Agente**: `sre-agent`.
 - **Skills**: `slo-management`, `observability-setup`, `incident-response`, `runbook-generation`, `postmortem`, `capacity-planning`, `chaos-testing`.
 - **MCP**: Datadog/Prometheus/Grafana, PagerDuty/Opsgenie, Kubernetes.
 - **Exit criteria**: SLO/SLI definidos con error budgets; alertas accionables; runbooks por servicio; ciclo de incidente con postmortem sin culpa.
 
-### Fase 7 — Governance Hardening & Audit  `[continuo]`
+### Fase 7 — Governance Hardening & Audit  `[🟡 agente + skills · continuo]`
 - **Agente**: `compliance-auditor`.
 - **Skills**: `audit-trail`, `regulatory-mapping`, `evidence-collection`.
 - **MCP**: ServiceNow, Confluence, almacén de evidencia.
@@ -167,12 +167,14 @@ F0 ──▶ F1 ──▶ F2 ──▶ F3 ──┬──▶ F4 ──▶ F5 ─
 
 | Componente | Estado |
 |-----------|--------|
-| Agentes `product-analyst`, `developer`, `qa-bdd-engineer`, `test-generator` | ✅ definidos |
-| Skills F1 (`story-refinement`, `bdd-test-generation`, `implement-from-bdd`) | ✅ |
-| Skills F2 (`test-generation`, `coverage-gap-analysis`, `mutation-testing`) | ✅ |
-| Skill F3 `code-review-security` | ✅ |
-| `.mcp.json` (Atlassian) | ✅ |
+| **10 agentes** (product-analyst, qa-bdd-engineer, developer, test-generator, security-reviewer, devops-pipeline, release-manager, platform-engineer, sre-agent, compliance-auditor) | ✅ definidos |
+| **~38 skills** (product/dev/qa/devsecops/devops/platform/sre/compliance) | ✅ (0 referencias rotas — ver smoke test) |
+| F1 núcleo BDD-first probado (issue→story→`.feature`→PR, suite verde) | ✅ end-to-end |
+| **Enforcement F0**: hooks `.feature`-inmutable + secret-scan + audit trail (`audit/*.jsonl`) + smoke test de integridad | ✅ (ver `TO-BE.md`, `CI-AND-HOOKS.md`) |
+| **CI** (BDD gate + framework smoke test + gitleaks) + `main` protegida (Trunk-Based) | ✅ |
+| `.mcp.json` (Atlassian, GitHub, markitdown) | ✅ |
 | **F0 gobierno**: `CLAUDE.md`, `docs/GOVERNANCE.md`, `.claude/settings.json`, `.env.example`, `.gitignore` | ✅ |
-| Resto de F3–F7 (agentes/skills/MCP) | ⏳ por construir (ver detalle) |
+| MCP externos de F3–F6 (semgrep, snyk, trivy, terraform, k8s, datadog, servicenow…) | 🟡 por configurar en `.mcp.json` |
+| Skills F2 extra (e2e/perf/contract) y skills dev/product opcionales | ⏳ por construir |
 
 Ver el desglose exhaustivo de cada agente, skill y MCP en [`ARCHITECTURE-DETAILED.md`](./ARCHITECTURE-DETAILED.md).
