@@ -31,6 +31,9 @@ coverage/
 htmlcov/
 mutation-report/
 
+# --- Audit trail local (el mecanismo emite; en prod va a almacén inmutable) ---
+audit/*.jsonl
+
 # --- OS / editor ---
 .DS_Store
 .idea/
