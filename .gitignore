@@ -34,6 +34,11 @@ mutation-report/
 # --- Audit trail local (el mecanismo emite; en prod va a almacén inmutable) ---
 audit/*.jsonl
 
+# --- Skills CLI (npx skills) ---
+skills-lock.json
+.qwen/
+.agents/
+
 # --- OS / editor ---
 .DS_Store
 .idea/
