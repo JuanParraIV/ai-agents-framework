@@ -1,0 +1,45 @@
+name: CI — BDD & Security Gates
+
+# Gates mecánicos (TB-2): ningún cambio entra a main/develop sin BDD verde y sin secretos.
+# Complementa branch protection (revisor humano ≠ autor → SoD/SOX). Ver docs/CI-AND-HOOKS.md.
+
+on:
+  pull_request:
+  push:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+
+jobs:
+  bdd-gate:
+    name: BDD gate (dry-run + suite verde)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Instalar dependencias
+        run: pip install behave
+      - name: Gate BDD — dry-run (0 undefined / 0 ambiguous)
+        # `behave --dry-run` sale != 0 si hay steps sin enlazar. Fuerza el contrato.
+        run: behave --dry-run
+      - name: Suite BDD — todos los escenarios en verde
+        run: behave
+
+  secret-scan:
+    name: Secret scan (gitleaks)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Instalar gitleaks
+        run: |
+          ver="8.21.2"
+          curl -sSL "https://github.com/gitleaks/gitleaks/releases/download/v${ver}/gitleaks_${ver}_linux_x64.tar.gz" \
+            | tar -xz gitleaks
+          sudo mv gitleaks /usr/local/bin/gitleaks
+      - name: Escanear repositorio (redacted, fail on finding)
+        run: gitleaks detect --no-banner --redact --exit-code 1

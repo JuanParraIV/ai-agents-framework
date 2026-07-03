@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Git pre-commit hook — enforcement a nivel git (defensa aunque el commit no venga
+# de un agente). Activar una vez con:  git config core.hooksPath .githooks
+#
+# Controles:
+#   1. .feature inmutable: bloquea si hay un .feature MODIFICADO en staging (CLAUDE.md §1.5).
+#   2. Secret-scan del diff staged (CLAUDE.md §2/§5).
+set -euo pipefail
+
+repo_root="$(git rev-parse --show-toplevel)"
+
+# 1) Contrato BDD inmutable: .feature no se modifica (crear uno nuevo sí se permite).
+modificados="$(git diff --cached --name-only --diff-filter=M -- '*.feature' || true)"
+if [ -n "$modificados" ]; then
+  echo "BLOQUEADO: se intenta modificar un contrato BDD inmutable (CLAUDE.md §1.5):" >&2
+  echo "$modificados" | sed 's/^/  - /' >&2
+  echo "El .feature no se modifica una vez existe. Escala a QA para regenerarlo." >&2
+  exit 1
+fi
+
+# 2) Secret-scan del diff staged.
+python3 "$repo_root/.claude/hooks/secret_scan.py" --staged
+
+exit 0
