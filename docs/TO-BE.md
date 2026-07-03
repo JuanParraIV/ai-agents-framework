@@ -60,7 +60,15 @@ El framework triunfa cuando se puede afirmar, con **evidencia ejecutable**:
 4. **Integridad del framework**: un CI propio valida que agentes ↔ skills ↔ MCP no tienen
    referencias rotas.
 
-**Baseline actual: 0 de 4 cumplidos.**
+**Baseline inicial: 0 de 4. Estado tras TB-1…TB-4: 4 de 4** (criterio 2 con la salvedad
+del paso admin de *branch protection*, ver [`CI-AND-HOOKS.md`](./CI-AND-HOOKS.md) §4).
+
+| Criterio | Mecanismo | Estado |
+|----------|-----------|--------|
+| 1 — flujo real con suite verde | `behave` 9/9 (SCRUM-1) | ✅ TB-1 |
+| 2 — cada control con mecanismo que lo impone | hooks + git hook + CI | ✅ TB-2 (falta branch protection: admin) |
+| 3 — cada acción deja registro verificable | hook `PostToolUse` → `audit/*.jsonl` | ✅ TB-3 |
+| 4 — integridad agentes↔skills↔MCP | `scripts/smoke_test.py` + CI | ✅ TB-4 |
 
 ---
 

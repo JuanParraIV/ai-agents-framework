@@ -28,6 +28,17 @@ jobs:
       - name: Suite BDD — todos los escenarios en verde
         run: behave
 
+  framework-integrity:
+    name: Framework smoke test (agentes ↔ skills ↔ MCP)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validar referencias (0 skills/hooks rotos)
+        run: python3 scripts/smoke_test.py
+
   secret-scan:
     name: Secret scan (gitleaks)
     runs-on: ubuntu-latest
