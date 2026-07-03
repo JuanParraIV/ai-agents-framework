@@ -1,4 +1,4 @@
-# MCP-SETUP.md — Configuración de MCP (JIRA + GitHub)
+# MCP-SETUP.md — Configuración de MCP (JIRA + GitHub + markitdown)
 
 Guía paso a paso para conectar los agentes del framework a sistemas reales vía **MCP
 (Model Context Protocol)**. Al terminar, los agentes podrán leer/crear issues en **JIRA**
@@ -56,6 +56,10 @@ GitHub usa el **server remoto oficial** (HTTP), así que **no** requiere Docker 
         "Authorization": "Bearer ${GITHUB_TOKEN}",
         "X-MCP-Toolsets": "repos,issues,pull_requests,actions"
       }
+    },
+    "markitdown": {                         // ingesta documental (sin credenciales)
+      "command": "uvx",
+      "args": ["markitdown-mcp"]
     }
   }
 }
@@ -64,6 +68,12 @@ GitHub usa el **server remoto oficial** (HTTP), así que **no** requiere Docker 
 - **`atlassian`** → server [`mcp-atlassian`](https://github.com/sooperset/mcp-atlassian), lanzado con `uvx`.
 - **`github`** → [GitHub MCP Server](https://github.com/github/github-mcp-server) en modo **remoto**.
   El header `X-MCP-Toolsets` limita las herramientas expuestas (least-privilege, `CLAUDE.md` §2).
+- **`markitdown`** → [markitdown-mcp](https://github.com/microsoft/markitdown/tree/main/packages/markitdown-mcp) (Microsoft), lanzado con `uvx`.
+  Convierte PDF/Office/HTML/imágenes a Markdown (`convert_to_markdown`). **No usa credenciales** —
+  no lleva `${VAR}` ni entrada en `.env`. Corre en local con los permisos de tu usuario, así que
+  puede leer rutas `file://` locales; úsalo solo con documentos que ya tienes derecho a leer.
+  Por RBAC ([`GOVERNANCE.md`](./GOVERNANCE.md) §1) es de **Product** y **Compliance** (ingesta de
+  requisitos y evidencia).
 
 ---
 

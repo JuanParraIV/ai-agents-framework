@@ -38,12 +38,13 @@ The **BDD-First Gate** is a hard requirement: the developer agent refuses to sta
 
 ## Setup
 
-The agents reach real systems through two MCP servers, configured in [`.mcp.json`](./.mcp.json):
+The agents reach real systems through three MCP servers, configured in [`.mcp.json`](./.mcp.json):
 
 - **`atlassian`** (JIRA) — [`mcp-atlassian`](https://github.com/sooperset/mcp-atlassian) via `uvx`.
 - **`github`** — the remote [GitHub MCP server](https://github.com/github/github-mcp-server) (branches/PRs for the issue→story→`.feature`→PR flow).
+- **`markitdown`** — [`markitdown-mcp`](https://github.com/microsoft/markitdown/tree/main/packages/markitdown-mcp) (Microsoft) via `uvx`. Converts PDF/Office/HTML docs to Markdown (`convert_to_markdown`) for requirement/evidence ingestion. **No credentials** — scoped to Product & Compliance by RBAC (`docs/GOVERNANCE.md` §1).
 
-Credentials are injected via environment (`${VAR}`) — **never commit secrets** (`CLAUDE.md` §5). Copy `.env.example` to `.env`, fill in the four values, load them, and relaunch:
+Credentials are injected via environment (`${VAR}`) — **never commit secrets** (`CLAUDE.md` §5). Only `atlassian` and `github` need tokens; `markitdown` needs none. Copy `.env.example` to `.env`, fill in the four values, load them, and relaunch:
 
 ```bash
 cp .env.example .env          # then edit .env with real tokens
@@ -53,7 +54,7 @@ claude                        # MCP reads the env at startup
 
 > 📖 **Full step-by-step** (where to get each token, required scopes, direnv setup, verification with `/mcp`, troubleshooting): [`docs/MCP-SETUP.md`](./docs/MCP-SETUP.md).
 
-Requires [`uv`](https://docs.astral.sh/uv/) (`uvx` runs `mcp-atlassian`). Approve both servers on first launch with `/mcp` in Claude Code.
+Requires [`uv`](https://docs.astral.sh/uv/) (`uvx` runs `mcp-atlassian` and `markitdown-mcp`). Approve the servers on first launch with `/mcp` in Claude Code.
 
 ## Usage
 

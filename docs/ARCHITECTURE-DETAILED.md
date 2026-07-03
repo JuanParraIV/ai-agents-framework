@@ -31,7 +31,7 @@ Convenciones:
 ### B.1 product-analyst ✅ (Product)
 - **Rol**: issues crudos → User Stories con Gherkin AC + sub-tasks.
 - **Skills**: `story-refinement`.
-- **MCP**: `mcp__atlassian__*` (jira_get_issue, jira_search, jira_create_issue, jira_update_issue, jira_add_comment, jira_create_issue_link, jira_get_transitions, jira_transition_issue).
+- **MCP**: `mcp__atlassian__*` (jira_get_issue, jira_search, jira_create_issue, jira_update_issue, jira_add_comment, jira_create_issue_link, jira_get_transitions, jira_transition_issue); `mcp__markitdown__convert_to_markdown` (ingesta de PDFs/Office de requisitos a Markdown).
 - **Tools nativos**: Read, Grep, Glob.
 - **Gate**: crea en `AI-draft`; nunca asigna a personas.
 
@@ -55,45 +55,45 @@ Convenciones:
 - **MCP**: ninguno (code-centric).
 - **Tools**: Read, Write, Edit, Bash, Grep, Glob.
 
-### B.5 security-reviewer ⏳ (DevSecOps)
+### B.5 security-reviewer ✅ (DevSecOps)
 - **Rol**: revisión de seguridad del diff + orquestación de SAST/SCA/secret/IaC/DAST + cumplimiento.
 - **Skills**: `code-review-security` ✅, `sast-scan`, `sca-scan`, `secret-scan`, `container-scan`, `iac-security-scan`, `dast-scan`, `threat-modeling`, `compliance-check`, `sbom-generation`.
 - **MCP**: `mcp__semgrep__*`, Snyk/Dependency-Track, Trivy/Grype, gitleaks, OWASP ZAP, SonarQube, GitHub/GitLab.
 - **Tools**: Read, Grep, Glob, Bash.
 - **Gate**: BLOCK en Critical/High; fail-closed; nunca aprueba el PR.
 
-### B.6 devops-pipeline ⏳ (DevOps)
+### B.6 devops-pipeline ✅ (DevOps)
 - **Rol**: genera/actualiza pipelines CI/CD con quality+security gates; build y empaquetado.
 - **Skills**: `pipeline-generation`, `container-build`, `artifact-management`.
 - **MCP**: GitHub/GitLab CI, Artifactory/Nexus.
 - **Tools**: Read, Write, Edit, Bash, Grep, Glob.
 - **Gate**: pipeline incluye gates de F2 y F3; sin secretos en claro.
 
-### B.7 release-manager ⏳ (DevOps/Release)
+### B.7 release-manager ✅ (DevOps/Release)
 - **Rol**: orquesta releases, versionado, changelog, rollback, change request.
 - **Skills**: `release-orchestration`, `rollback`.
 - **MCP**: GitHub (releases/tags), ServiceNow (change management), Atlassian.
 - **Tools**: Read, Write, Edit, Bash.
 - **Gate**: aprobación humana/CAB para prod; release firmada y trazable a JIRA.
 
-### B.8 platform-engineer ⏳ (Platform)
+### B.8 platform-engineer ✅ (Platform)
 - **Rol**: IaC, Kubernetes, Helm, GitOps, provisioning de entornos, secretos.
 - **Skills**: `iac-generation`, `k8s-manifest`, `helm-chart`, `gitops-setup`, `environment-provisioning`, `secrets-management`.
 - **MCP**: Terraform/Pulumi, Kubernetes, ArgoCD, Vault, Cloud (AWS/Azure/GCP).
 - **Tools**: Read, Write, Edit, Bash, Grep, Glob.
 - **Gate**: `terraform plan` (nunca `apply` directo a prod sin aprobación); security baseline; GitOps como fuente de verdad.
 
-### B.9 sre-agent ⏳ (SRE)
+### B.9 sre-agent ✅ (SRE)
 - **Rol**: SLO/SLI, observabilidad, respuesta a incidentes, runbooks, postmortems, capacity, chaos.
 - **Skills**: `slo-management`, `observability-setup`, `incident-response`, `runbook-generation`, `postmortem`, `capacity-planning`, `chaos-testing`.
 - **MCP**: Datadog/Prometheus/Grafana, PagerDuty/Opsgenie, Kubernetes.
 - **Tools**: Read, Write, Edit, Bash, Grep, Glob.
 - **Gate**: acciones de mitigación en prod requieren aprobación; postmortem sin culpa obligatorio.
 
-### B.10 compliance-auditor ⏳ (Compliance/Risk)
+### B.10 compliance-auditor ✅ (Compliance/Risk)
 - **Rol**: trazabilidad requisito↔código↔test↔deploy, recolección de evidencia, mapeo regulatorio.
 - **Skills**: `audit-trail`, `regulatory-mapping`, `evidence-collection`.
-- **MCP**: ServiceNow, Confluence, Atlassian, almacén de evidencia.
+- **MCP**: ServiceNow, Confluence, Atlassian, `markitdown` (evidencia/regulación en PDF → Markdown), almacén de evidencia.
 - **Tools**: Read, Grep, Glob.
 - **Gate**: solo lectura sobre artefactos; nunca modifica código/infra.
 
@@ -132,52 +132,52 @@ Convenciones:
 ### devsecops/
 | Skill | Estado | Qué hace |
 |-------|--------|----------|
-| `sast-scan` | ⏳ | SAST (Semgrep/SonarQube) sobre el diff |
-| `sca-scan` | ⏳ | dependencias vulnerables (Snyk) |
-| `secret-scan` | ⏳ | secretos (gitleaks/trufflehog) |
-| `container-scan` | ⏳ | imágenes (Trivy/Grype) |
-| `iac-security-scan` | ⏳ | misconfig IaC (tfsec/checkov) |
-| `dast-scan` | ⏳ | dinámico (OWASP ZAP) |
-| `threat-modeling` | ⏳ | STRIDE sobre el diseño |
-| `compliance-check` | ⏳ | mapeo PCI-DSS/SOX/GDPR |
-| `sbom-generation` | ⏳ | SBOM (CycloneDX/SPDX) por release |
+| `sast-scan` | ✅ | SAST (Semgrep/SonarQube) sobre el diff |
+| `sca-scan` | ✅ | dependencias vulnerables (Snyk) |
+| `secret-scan` | ✅ | secretos (gitleaks/trufflehog) |
+| `container-scan` | ✅ | imágenes (Trivy/Grype) |
+| `iac-security-scan` | ✅ | misconfig IaC (tfsec/checkov) |
+| `dast-scan` | ✅ | dinámico (OWASP ZAP) |
+| `threat-modeling` | ✅ | STRIDE sobre el diseño |
+| `compliance-check` | ✅ | mapeo PCI-DSS/SOX/GDPR |
+| `sbom-generation` | ✅ | SBOM (CycloneDX/SPDX) por release |
 
 ### devops/
 | Skill | Estado | Qué hace |
 |-------|--------|----------|
-| `pipeline-generation` | ⏳ | CI/CD con quality+security gates |
-| `container-build` | ⏳ | Dockerfile seguro + build reproducible |
-| `artifact-management` | ⏳ | versionado/firmado de artefactos |
-| `release-orchestration` | ⏳ | versionado, changelog, despliegue |
-| `rollback` | ⏳ | rollback probado y trazable |
+| `pipeline-generation` | ✅ | CI/CD con quality+security gates |
+| `container-build` | ✅ | Dockerfile seguro + build reproducible |
+| `artifact-management` | ✅ | versionado/firmado de artefactos |
+| `release-orchestration` | ✅ | versionado, changelog, despliegue |
+| `rollback` | ✅ | rollback probado y trazable |
 
 ### platform/
 | Skill | Estado | Qué hace |
 |-------|--------|----------|
-| `iac-generation` | ⏳ | Terraform/Pulumi con baseline seguro |
-| `k8s-manifest` | ⏳ | manifests con límites/probes/policies |
-| `helm-chart` | ⏳ | charts parametrizados |
-| `gitops-setup` | ⏳ | ArgoCD/Flux como fuente de verdad |
-| `environment-provisioning` | ⏳ | entornos efímeros/reproducibles |
-| `secrets-management` | ⏳ | Vault/ESO, rotación, sin secretos en claro |
+| `iac-generation` | ✅ | Terraform/Pulumi con baseline seguro |
+| `k8s-manifest` | ✅ | manifests con límites/probes/policies |
+| `helm-chart` | ✅ | charts parametrizados |
+| `gitops-setup` | ✅ | ArgoCD/Flux como fuente de verdad |
+| `environment-provisioning` | ✅ | entornos efímeros/reproducibles |
+| `secrets-management` | ✅ | Vault/ESO, rotación, sin secretos en claro |
 
 ### sre/
 | Skill | Estado | Qué hace |
 |-------|--------|----------|
-| `slo-management` | ⏳ | SLI/SLO + error budgets |
-| `observability-setup` | ⏳ | métricas/logs/traces + dashboards |
-| `incident-response` | ⏳ | triage, mitigación, comms |
-| `runbook-generation` | ⏳ | runbooks por servicio |
-| `postmortem` | ⏳ | postmortem sin culpa + acciones |
-| `capacity-planning` | ⏳ | tendencias y dimensionamiento |
-| `chaos-testing` | ⏳ | experimentos de resiliencia |
+| `slo-management` | ✅ | SLI/SLO + error budgets |
+| `observability-setup` | ✅ | métricas/logs/traces + dashboards |
+| `incident-response` | ✅ | triage, mitigación, comms |
+| `runbook-generation` | ✅ | runbooks por servicio |
+| `postmortem` | ✅ | postmortem sin culpa + acciones |
+| `capacity-planning` | ✅ | tendencias y dimensionamiento |
+| `chaos-testing` | ✅ | experimentos de resiliencia |
 
 ### compliance/
 | Skill | Estado | Qué hace |
 |-------|--------|----------|
-| `audit-trail` | ⏳ | traza inmutable de acciones |
-| `regulatory-mapping` | ⏳ | control↔regulación (PCI/SOX/DORA) |
-| `evidence-collection` | ⏳ | evidencia para auditoría/regulador |
+| `audit-trail` | ✅ | traza inmutable de acciones |
+| `regulatory-mapping` | ✅ | control↔regulación (PCI/SOX/DORA) |
+| `evidence-collection` | ✅ | evidencia para auditoría/regulador |
 
 ---
 
@@ -186,6 +186,7 @@ Convenciones:
 | MCP server | Tools (ej.) | Usado por | Fase |
 |------------|-------------|-----------|------|
 | `atlassian` (JIRA/Confluence) | jira_get_issue, jira_search, jira_create_issue, jira_transition_issue | product, qa-bdd, developer, release, compliance | F1 ✅ |
+| `markitdown` | convert_to_markdown (uri: http/https/file/data) | product, compliance | F1 ✅ |
 | `github` / `gitlab` | get_pull_request_diff, create_review_comment, create_pr | developer, security-reviewer, devops | F1–F4 |
 | `semgrep` | semgrep_scan | security-reviewer | F3 |
 | `snyk` / `dependency-track` | test, monitor | security-reviewer | F3 |
@@ -242,18 +243,18 @@ Convenciones:
 ai-agents-framework/
 ├─ .mcp.json
 ├─ README.md
-├─ CLAUDE.md                      # guardrails globales (⏳)
+├─ CLAUDE.md                      # guardrails globales ✅
 ├─ docs/
 │  ├─ ARCHITECTURE.md             # plano por fases
 │  └─ ARCHITECTURE-DETAILED.md    # este documento
 └─ .claude/
    ├─ agents/
    │  ├─ product-analyst.md ✅  developer.md ✅  qa-bdd-engineer.md ✅  test-generator.md ✅
-   │  ├─ security-reviewer.md ⏳ devops-pipeline.md ⏳ release-manager.md ⏳
-   │  └─ platform-engineer.md ⏳ sre-agent.md ⏳ compliance-auditor.md ⏳
+   │  ├─ security-reviewer.md ✅ devops-pipeline.md ✅ release-manager.md ✅
+   │  └─ platform-engineer.md ✅ sre-agent.md ✅ compliance-auditor.md ✅
    └─ skills/
       ├─ product/  dev/  qa/      # ✅ pobladas (F1–F3 core)
-      └─ devsecops/ devops/ platform/ sre/ compliance/   # ⏳
+      └─ devsecops/ devops/ platform/ sre/ compliance/   # ✅ pobladas (F3–F7)
 ```
 
 ---
