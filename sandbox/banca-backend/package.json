@@ -1,0 +1,16 @@
+{
+  "name": "banca-backend",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Backend de prueba - API Banca Digital. Andamiaje de tests BDD (Cucumber.js). El codigo de produccion lo implementa el agente Dev.",
+  "scripts": {
+    "test:bdd": "cucumber-js",
+    "test:bdd:dry": "cucumber-js --dry-run"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^10.9.0",
+    "@types/node": "^20.11.30",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}
